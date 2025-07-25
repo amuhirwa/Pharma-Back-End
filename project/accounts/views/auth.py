@@ -39,6 +39,8 @@ class CustomRegisterView(RegisterView):
         if 'user_type' in serializer.data:
             user.user_type=serializer.data['user_type']
             user.save()
+        else:
+            user.user_type = "patient"
 
         POSITIONS[user.user_type].objects.create(
             user=user,
