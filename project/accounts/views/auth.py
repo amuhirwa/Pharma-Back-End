@@ -48,7 +48,6 @@ class CustomRegisterView(RegisterView):
 
 
 
-        SendEmail.send_otp(user)
         return Response({"detail": "Verify your email"}, status=status.HTTP_201_CREATED)
 
 
