@@ -3,7 +3,7 @@ from decouple import config
 
 from .base import *
 
-LOCAL = config("LOCAL", cast=bool, default=False)
+LOCAL = True
 
 
 if LOCAL:
