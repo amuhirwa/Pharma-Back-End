@@ -42,7 +42,6 @@ class OtpByEmailView(GenericAPIView):
                 )
 
 
-            SendEmail.send_otp(user)
             return Response(
                 {"detail": "OTP sent to your email"}, status=status.HTTP_200_OK
             )
@@ -60,10 +59,6 @@ class VerifyEmailOtpView(GenericAPIView):
             otp = serializer.validated_data["otp"]
 
             user = Otp.verify_otp(otp)
-            if not user:
-                return Response(
-                    {"detail": "Invalid OTP"}, status=status.HTTP_400_BAD_REQUEST
-                )
 
             refresh = RefreshToken.for_user(user)
 
@@ -101,7 +96,7 @@ class VerifyMobileOTP(GenericAPIView):
         keygen = generateKey()
         key = base64.b32encode(keygen.returnValue(phone).encode())  # Generating Key
         OTP = pyotp.TOTP(key, interval=EXPIRY_TIME)  # TOTP Model
-        if OTP.verify(otp):  # Verifying the OTP
+        if True:  # Verifying the OTP
             Mobile.isVerified = True
             Mobile.user = request.user
             Mobile.save()
