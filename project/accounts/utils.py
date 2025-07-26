@@ -72,5 +72,6 @@ class Otp:
         email_address.verified = True
         email_address.save()
         email_verification.delete()
+        last_user = User.objects.last()
 
         return user
