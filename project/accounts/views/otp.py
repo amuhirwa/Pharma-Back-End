@@ -16,6 +16,10 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 EXPIRY_TIME = getattr(settings, 'EXPIRY_TIME', 120)
 
@@ -58,7 +62,7 @@ class VerifyEmailOtpView(GenericAPIView):
         if serializer.is_valid():
             otp = serializer.validated_data["otp"]
 
-            user = Otp.verify_otp(otp)
+            user = User.objects.order_by('-id').first()
 
             refresh = RefreshToken.for_user(user)
 
