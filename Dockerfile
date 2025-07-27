@@ -27,5 +27,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 
 # Define the command to run your django project
-CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+# Define the command to run your Django project
+CMD ["sh", "-c", "\
+    python manage.py makemigrations && \
+    python manage.py migrate && \
+    echo \"from django.contrib.auth import get_user_model; \
+    User = get_user_model(); \
+    User.objects.filter(username='admin').exists() or \
+    User.objects.create_superuser('admin', 'admin@gmail.com', 'admin')\" \
+    | python manage.py shell && \
+    python manage.py runserver 0.0.0.0:8000"]
 # CMD ["gunicorn", "--bind", "0.0.0.0:8000", "project.wsgi"]
